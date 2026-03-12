@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { FileDown } from "lucide-react";
 import { useApp } from "../context/AppContext";
-import { ESPECIALIDADES, STATUS_LABELS } from "../utils/helpers";
+import { ESPECIALIDADES, STATUS_LABELS, formatarData, formatarCPF } from "../utils/helpers";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function Relatorios() {
-  const { pacientes, atendimentos } = useApp();
+  const { pacientes, atendimentos, filaEspera, profissionais } = useApp();
   const [periodo, setPeriodo] = useState("Mensal");
   const periodos = ["Semanal", "Mensal", "Trimestral", "Anual"];
 
@@ -37,7 +39,98 @@ export default function Relatorios() {
   };
 
   const exportPDF = () => {
-    alert("Funcionalidade de exportação PDF em desenvolvimento.");
+    const doc = new jsPDF();
+    const hoje = new Date();
+    const dataStr = `${String(hoje.getDate()).padStart(2, "0")}/${String(hoje.getMonth() + 1).padStart(2, "0")}/${hoje.getFullYear()}`;
+
+    // Header
+    doc.setFontSize(18);
+    doc.setTextColor(107, 33, 168);
+    doc.text("Gestao Terapeutica Arco-Iris", 14, 20);
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(`Relatorio gerado em ${dataStr} - Periodo: ${periodo}`, 14, 28);
+
+    // Resumo geral
+    doc.setFontSize(14);
+    doc.setTextColor(0);
+    doc.text("Resumo Geral", 14, 40);
+
+    autoTable(doc, {
+      startY: 44,
+      head: [["Indicador", "Valor"]],
+      body: [
+        ["Total de pacientes", String(pacientes.length)],
+        ["Idade media", `${idadeMedia()} anos`],
+        ["Total de atendimentos", String(totalAtendimentos)],
+        ["Compareceram", String(compareceram)],
+        ["Faltas", String(faltas)],
+        ["Profissionais ativos", String(profissionais.filter((p) => p.situacao === "ativo").length)],
+        ["Pacientes na fila de espera", String(filaEspera.length)],
+        ...Object.keys(STATUS_LABELS).map((key) => [
+          STATUS_LABELS[key],
+          String(pacientes.filter((p) => p.status === key).length),
+        ]),
+      ],
+      theme: "grid",
+      headStyles: { fillColor: [107, 33, 168] },
+    });
+
+    // Atendimentos por especialidade
+    if (porEspecialidade.length > 0) {
+      const finalY = (doc as jsPDF & { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? 100;
+      doc.setFontSize(14);
+      doc.text("Atendimentos por Especialidade", 14, finalY + 12);
+
+      autoTable(doc, {
+        startY: finalY + 16,
+        head: [["Especialidade", "Total", "Compareceu", "Faltou"]],
+        body: porEspecialidade.map((e) => [
+          e.especialidade,
+          String(e.total),
+          String(e.compareceu),
+          String(e.faltou),
+        ]),
+        theme: "grid",
+        headStyles: { fillColor: [107, 33, 168] },
+      });
+    }
+
+    // Lista de pacientes
+    doc.addPage();
+    doc.setFontSize(14);
+    doc.setTextColor(0);
+    doc.text("Lista de Pacientes", 14, 20);
+
+    autoTable(doc, {
+      startY: 24,
+      head: [["Nome", "CPF", "Status", "Diagnostico", "Data Cadastro"]],
+      body: pacientes.map((p) => [
+        p.nome,
+        formatarCPF(p.cpf),
+        STATUS_LABELS[p.status] || p.status,
+        p.diagnostico || "-",
+        formatarData(p.dataCadastro) || "-",
+      ]),
+      theme: "grid",
+      headStyles: { fillColor: [107, 33, 168] },
+      styles: { fontSize: 8 },
+    });
+
+    // Footer
+    const pageCount = doc.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(8);
+      doc.setTextColor(150);
+      doc.text(
+        `Gestao Terapeutica Arco-Iris - Pagina ${i} de ${pageCount}`,
+        14,
+        doc.internal.pageSize.height - 10
+      );
+    }
+
+    doc.save(`relatorio-arco-iris-${hoje.toISOString().split("T")[0]}.pdf`);
   };
 
   return (

@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { Download, Upload, AlertTriangle, Trash2 } from "lucide-react";
+import { Download, Upload, AlertTriangle, Trash2, Key, LogOut } from "lucide-react";
 import { useApp } from "../context/AppContext";
 
-export default function Configuracoes() {
+interface Props {
+  onLogout: () => void;
+}
+
+export default function Configuracoes({ onLogout }: Props) {
   const {
     pacientes, setPacientes,
     profissionais, setProfissionais,
@@ -13,6 +17,9 @@ export default function Configuracoes() {
   } = useApp();
 
   const [msg, setMsg] = useState("");
+  const [senhaAtual, setSenhaAtual] = useState("");
+  const [senhaNova, setSenhaNova] = useState("");
+  const [senhaConfirm, setSenhaConfirm] = useState("");
 
   const exportarBackup = () => {
     const data = {
@@ -145,6 +152,81 @@ export default function Configuracoes() {
               <span className="font-bold">{entradasSaidas.length}</span>
             </div>
           </div>
+        </div>
+
+        <div className="bg-white rounded-xl p-5 shadow-sm border">
+          <div className="flex items-center gap-2 mb-2">
+            <Key size={18} className="text-purple-600" />
+            <h3 className="font-semibold text-gray-700">Alterar Senha</h3>
+          </div>
+          <p className="text-sm text-gray-500 mb-4">
+            Altere a senha de acesso ao sistema.
+          </p>
+          <div className="space-y-3 max-w-sm">
+            <input
+              type="password"
+              value={senhaAtual}
+              onChange={(e) => setSenhaAtual(e.target.value)}
+              placeholder="Senha atual"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+            />
+            <input
+              type="password"
+              value={senhaNova}
+              onChange={(e) => setSenhaNova(e.target.value)}
+              placeholder="Nova senha"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+            />
+            <input
+              type="password"
+              value={senhaConfirm}
+              onChange={(e) => setSenhaConfirm(e.target.value)}
+              placeholder="Confirmar nova senha"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+            />
+            <button
+              onClick={() => {
+                const currentPw = localStorage.getItem("arcoiris_admin_password") || "admin123";
+                if (senhaAtual !== currentPw) {
+                  alert("Senha atual incorreta!");
+                  return;
+                }
+                if (senhaNova.length < 4) {
+                  alert("A nova senha deve ter pelo menos 4 caracteres!");
+                  return;
+                }
+                if (senhaNova !== senhaConfirm) {
+                  alert("As senhas não coincidem!");
+                  return;
+                }
+                localStorage.setItem("arcoiris_admin_password", senhaNova);
+                setSenhaAtual("");
+                setSenhaNova("");
+                setSenhaConfirm("");
+                setMsg("Senha alterada com sucesso!");
+                setTimeout(() => setMsg(""), 3000);
+              }}
+              className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2.5 rounded-lg hover:bg-purple-700 text-sm"
+            >
+              <Key size={16} /> Alterar Senha
+            </button>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl p-5 shadow-sm border">
+          <h3 className="font-semibold text-gray-700 mb-2">Sair do Sistema</h3>
+          <p className="text-sm text-gray-500 mb-4">
+            Encerrar a sessão atual e voltar para a tela de login.
+          </p>
+          <button
+            onClick={() => {
+              sessionStorage.removeItem("arcoiris_auth");
+              onLogout();
+            }}
+            className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2.5 rounded-lg hover:bg-gray-700 text-sm"
+          >
+            <LogOut size={16} /> Sair
+          </button>
         </div>
 
         <div className="bg-red-50 rounded-xl p-5 border border-red-200">

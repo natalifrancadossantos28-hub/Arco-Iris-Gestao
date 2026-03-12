@@ -13,11 +13,19 @@ import Buscativas from "./pages/Buscativas";
 import EntradaSaida from "./pages/EntradaSaida";
 import Relatorios from "./pages/Relatorios";
 import Configuracoes from "./pages/Configuracoes";
+import Login from "./pages/Login";
 import type { Paciente } from "./types";
 
 function AppContent() {
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => sessionStorage.getItem("arcoiris_auth") === "true"
+  );
   const [currentPage, setCurrentPage] = useState("dashboard");
   const [editPaciente, setEditPaciente] = useState<Paciente | null>(null);
+
+  if (!isAuthenticated) {
+    return <Login onLogin={() => setIsAuthenticated(true)} />;
+  }
 
   const navigate = (page: string) => {
     setCurrentPage(page);
@@ -62,7 +70,7 @@ function AppContent() {
       case "relatorios":
         return <Relatorios />;
       case "configuracoes":
-        return <Configuracoes />;
+        return <Configuracoes onLogout={() => setIsAuthenticated(false)} />;
       default:
         return <Dashboard />;
     }
