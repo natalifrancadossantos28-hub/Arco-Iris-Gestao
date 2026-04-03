@@ -11,6 +11,7 @@ export interface Paciente {
   cidade: string;
   cep: string;
   cnesUnidade: string;
+  dataEntradaUnidade: string;
   dataCadastro: string;
   tipoCadastro: string;
   cid: string;

@@ -30,6 +30,7 @@ export default function CadastrarPaciente({ onBack, editPaciente }: Props) {
     cidade: editPaciente?.cidade || "",
     cep: editPaciente?.cep || "",
     cnesUnidade: editPaciente?.cnesUnidade || "",
+    dataEntradaUnidade: editPaciente?.dataEntradaUnidade || "",
     dataCadastro: editPaciente?.dataCadastro || dataHoje(),
     tipoCadastro: editPaciente?.tipoCadastro || "cadastro_ativo",
     cid: editPaciente?.cid || "",
@@ -173,6 +174,7 @@ export default function CadastrarPaciente({ onBack, editPaciente }: Props) {
           </h3>
           <div className="grid grid-cols-3 gap-4">
             <InputField label="CNES da unidade" field="cnesUnidade" placeholder="CNES" />
+            <InputField label="Data de entrada na unidade" field="dataEntradaUnidade" type="date" />
             <InputField label="Data de cadastro" field="dataCadastro" type="date" />
             <div>
               <label className="text-sm text-gray-600 mb-1 block">Tipo de cadastro</label>

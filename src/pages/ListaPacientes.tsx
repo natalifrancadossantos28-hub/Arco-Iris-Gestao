@@ -158,6 +158,7 @@ export default function ListaPacientes({ onEdit, onNew }: Props) {
               <div><span className="text-gray-500">CEP:</span> <span className="font-medium">{detalhes.cep || "-"}</span></div>
               <div><span className="text-gray-500">Diagnóstico:</span> <span className="font-medium">{detalhes.diagnostico || "-"}</span></div>
               <div><span className="text-gray-500">CID:</span> <span className="font-medium">{detalhes.cid || "-"}</span></div>
+              <div><span className="text-gray-500">Data de entrada na unidade:</span> <span className="font-medium">{formatarData(detalhes.dataEntradaUnidade) || "-"}</span></div>
               <div><span className="text-gray-500">Status:</span> <span className="font-medium">{STATUS_LABELS[detalhes.status] || detalhes.status}</span></div>
               <div><span className="text-gray-500">Tipo de cadastro:</span> <span className="font-medium">{detalhes.tipoCadastro}</span></div>
               <div className="col-span-2"><span className="text-gray-500">Observações:</span> <span className="font-medium">{detalhes.observacoes || "-"}</span></div>
