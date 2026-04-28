@@ -309,15 +309,15 @@ export default function Agenda() {
         </div>
       </div>
 
-      {/* Painel de detalhes do atendimento com ações */}
+      {/* Painel de detalhes do atendimento com ações — Dark Neon */}
       {selectedAtendimento && !showAltaModal && !showEncaminhamentoModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-gray-900 rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 border border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-800">Detalhes do Atendimento</h3>
+              <h3 className="text-lg font-bold text-cyan-400">Detalhes do Atendimento</h3>
               <button
                 onClick={() => setSelectedAtendimento(null)}
-                className="p-1 hover:bg-gray-100 rounded-lg"
+                className="p-1 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white"
               >
                 <X size={20} />
               </button>
@@ -325,54 +325,54 @@ export default function Agenda() {
 
             <div className="space-y-2 mb-5">
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Paciente:</span>
-                <span className="text-sm font-medium text-gray-800">
+                <span className="text-sm text-gray-400">Paciente:</span>
+                <span className="text-sm font-medium text-gray-100">
                   {getPacienteNome(selectedAtendimento.pacienteId)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Profissional:</span>
-                <span className="text-sm font-medium text-gray-800">
+                <span className="text-sm text-gray-400">Profissional:</span>
+                <span className="text-sm font-medium text-gray-100">
                   {getProfissionalNome(selectedAtendimento.profissionalId)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Especialidade:</span>
-                <span className="text-sm font-medium text-gray-800">
+                <span className="text-sm text-gray-400">Especialidade:</span>
+                <span className="text-sm font-medium text-gray-100">
                   {selectedAtendimento.especialidade}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Data:</span>
-                <span className="text-sm font-medium text-gray-800">
+                <span className="text-sm text-gray-400">Data:</span>
+                <span className="text-sm font-medium text-gray-100">
                   {selectedAtendimento.data}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Horário:</span>
-                <span className="text-sm font-medium text-gray-800">
+                <span className="text-sm text-gray-400">Horário:</span>
+                <span className="text-sm font-medium text-gray-100">
                   {selectedAtendimento.horario}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-500">Status:</span>
+                <span className="text-sm text-gray-400">Status:</span>
                 {getStatusBadge(selectedAtendimento.status)}
               </div>
               {selectedAtendimento.observacoes && (
                 <div>
-                  <span className="text-sm text-gray-500">Observações:</span>
-                  <p className="text-sm text-gray-700 mt-1">{selectedAtendimento.observacoes}</p>
+                  <span className="text-sm text-gray-400">Observações:</span>
+                  <p className="text-sm text-gray-300 mt-1">{selectedAtendimento.observacoes}</p>
                 </div>
               )}
             </div>
 
-            <div className="border-t pt-4">
-              <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">Ações</p>
+            <div className="border-t border-gray-700 pt-4">
+              <p className="text-xs font-semibold text-cyan-400 mb-3 uppercase tracking-wide">Ações</p>
               <div className="space-y-2">
                 {selectedAtendimento.status !== "em_atendimento" && selectedAtendimento.status !== "alta" && (
                   <button
                     onClick={() => handleEmAtendimento(selectedAtendimento)}
-                    className="w-full flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 bg-emerald-500 text-white px-4 py-2.5 rounded-lg text-sm font-bold hover:bg-emerald-400 hover:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all"
                   >
                     <Activity size={16} />
                     Em Atendimento
@@ -382,7 +382,7 @@ export default function Agenda() {
                 {selectedAtendimento.status !== "alta" && (
                   <button
                     onClick={openAltaModal}
-                    className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 bg-cyan-500 text-white px-4 py-2.5 rounded-lg text-sm font-bold hover:bg-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all"
                   >
                     <LogOut size={16} />
                     Dar Alta
@@ -392,7 +392,7 @@ export default function Agenda() {
                 {selectedAtendimento.status !== "alta" && (
                   <button
                     onClick={openEncaminhamentoModal}
-                    className="w-full flex items-center justify-center gap-2 bg-purple-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 bg-fuchsia-600 text-white px-4 py-2.5 rounded-lg text-sm font-bold hover:bg-fuchsia-500 hover:shadow-[0_0_15px_rgba(192,38,211,0.5)] transition-all"
                   >
                     <Send size={16} />
                     Encaminhamento Interno
@@ -404,26 +404,26 @@ export default function Agenda() {
         </div>
       )}
 
-      {/* Modal Dar Alta */}
+      {/* Modal Dar Alta — Dark Neon */}
       {showAltaModal && selectedAtendimento && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-gray-900 rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 border border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-800">Dar Alta</h3>
+              <h3 className="text-lg font-bold text-cyan-400">Dar Alta</h3>
               <button
                 onClick={() => setShowAltaModal(false)}
-                className="p-1 hover:bg-gray-100 rounded-lg"
+                className="p-1 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white"
               >
                 <X size={20} />
               </button>
             </div>
 
-            <p className="text-sm text-gray-600 mb-2">
-              Paciente: <strong>{getPacienteNome(selectedAtendimento.pacienteId)}</strong>
+            <p className="text-sm text-gray-300 mb-2">
+              Paciente: <strong className="text-gray-100">{getPacienteNome(selectedAtendimento.pacienteId)}</strong>
             </p>
 
             <div className="mb-4">
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
+              <label className="text-sm font-medium text-cyan-300 mb-1 block">
                 Motivo da Alta *
               </label>
               <textarea
@@ -431,20 +431,20 @@ export default function Agenda() {
                 onChange={(e) => setMotivoAlta(e.target.value)}
                 placeholder="Descreva o motivo da alta..."
                 rows={4}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+                className="w-full border border-gray-600 bg-gray-800 text-gray-100 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none resize-none placeholder-gray-500"
               />
             </div>
 
             <div className="flex gap-2">
               <button
                 onClick={() => setShowAltaModal(false)}
-                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-gray-600 rounded-lg text-sm font-medium text-gray-300 hover:bg-gray-800 transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={confirmarAlta}
-                className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 bg-cyan-500 text-white px-4 py-2.5 rounded-lg text-sm font-bold hover:bg-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all"
               >
                 <LogOut size={16} />
                 Confirmar Alta
@@ -454,26 +454,26 @@ export default function Agenda() {
         </div>
       )}
 
-      {/* Modal Encaminhamento Interno */}
+      {/* Modal Encaminhamento Interno — Dark Neon */}
       {showEncaminhamentoModal && selectedAtendimento && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-gray-900 rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 border border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-800">Encaminhamento Interno</h3>
+              <h3 className="text-lg font-bold text-fuchsia-400">Encaminhamento Interno</h3>
               <button
                 onClick={() => setShowEncaminhamentoModal(false)}
-                className="p-1 hover:bg-gray-100 rounded-lg"
+                className="p-1 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white"
               >
                 <X size={20} />
               </button>
             </div>
 
-            <p className="text-sm text-gray-600 mb-4">
-              Paciente: <strong>{getPacienteNome(selectedAtendimento.pacienteId)}</strong>
+            <p className="text-sm text-gray-300 mb-4">
+              Paciente: <strong className="text-gray-100">{getPacienteNome(selectedAtendimento.pacienteId)}</strong>
             </p>
 
             {encErro && (
-              <div className="bg-red-50 text-red-700 text-sm p-3 rounded-lg mb-4 flex items-center gap-2">
+              <div className="bg-red-900/50 text-red-300 text-sm p-3 rounded-lg mb-4 flex items-center gap-2 border border-red-700">
                 <AlertTriangle size={16} />
                 {encErro}
               </div>
@@ -481,7 +481,7 @@ export default function Agenda() {
 
             <div className="space-y-4 mb-4">
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                <label className="text-sm font-medium text-fuchsia-300 mb-1 block">
                   Especialidade de Destino *
                 </label>
                 <select
@@ -490,7 +490,7 @@ export default function Agenda() {
                     setEncEspecialidade(e.target.value);
                     setEncErro("");
                   }}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                  className="w-full border border-gray-600 bg-gray-800 text-gray-100 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 outline-none"
                 >
                   {ESPECIALIDADES.map((e) => (
                     <option key={e} value={e}>
@@ -501,7 +501,7 @@ export default function Agenda() {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                <label className="text-sm font-medium text-fuchsia-300 mb-1 block">
                   Motivo do Encaminhamento *
                 </label>
                 <textarea
@@ -512,7 +512,7 @@ export default function Agenda() {
                   }}
                   placeholder="Descreva o motivo do encaminhamento..."
                   rows={4}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 outline-none resize-none"
+                  className="w-full border border-gray-600 bg-gray-800 text-gray-100 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 outline-none resize-none placeholder-gray-500"
                 />
               </div>
             </div>
@@ -520,13 +520,13 @@ export default function Agenda() {
             <div className="flex gap-2">
               <button
                 onClick={() => setShowEncaminhamentoModal(false)}
-                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-gray-600 rounded-lg text-sm font-medium text-gray-300 hover:bg-gray-800 transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={confirmarEncaminhamento}
-                className="flex-1 flex items-center justify-center gap-2 bg-purple-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 bg-fuchsia-600 text-white px-4 py-2.5 rounded-lg text-sm font-bold hover:bg-fuchsia-500 hover:shadow-[0_0_15px_rgba(192,38,211,0.5)] transition-all"
               >
                 <Send size={16} />
                 Encaminhar
