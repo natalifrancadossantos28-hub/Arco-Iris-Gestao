@@ -67,3 +67,13 @@ export interface EntradaSaida {
   motivo: string;
   observacoes: string;
 }
+
+export interface Notificacao {
+  id: string;
+  tipo: "alta" | "encaminhamento" | "agendamento";
+  mensagem: string;
+  data: string;
+  lida: boolean;
+  pacienteId: string;
+  detalhes: string;
+}

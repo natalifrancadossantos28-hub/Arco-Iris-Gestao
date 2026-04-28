@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import type { Paciente, Profissional, FilaEsperaItem, Atendimento, Buscativa, EntradaSaida } from "../types";
+import type { Paciente, Profissional, FilaEsperaItem, Atendimento, Buscativa, EntradaSaida, Notificacao } from "../types";
 
 interface AppContextType {
   pacientes: Paciente[];
@@ -14,6 +14,8 @@ interface AppContextType {
   setBuscativas: React.Dispatch<React.SetStateAction<Buscativa[]>>;
   entradasSaidas: EntradaSaida[];
   setEntradasSaidas: React.Dispatch<React.SetStateAction<EntradaSaida[]>>;
+  notificacoes: Notificacao[];
+  setNotificacoes: React.Dispatch<React.SetStateAction<Notificacao[]>>;
 }
 
 function loadFromStorage<T>(key: string, fallback: T): T {
@@ -47,6 +49,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [entradasSaidas, setEntradasSaidas] = useState<EntradaSaida[]>(() =>
     loadFromStorage("arcoiris_entradas_saidas", [])
   );
+  const [notificacoes, setNotificacoes] = useState<Notificacao[]>(() =>
+    loadFromStorage("arcoiris_notificacoes", [])
+  );
 
   useEffect(() => {
     localStorage.setItem("arcoiris_pacientes", JSON.stringify(pacientes));
@@ -72,6 +77,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("arcoiris_entradas_saidas", JSON.stringify(entradasSaidas));
   }, [entradasSaidas]);
 
+  useEffect(() => {
+    localStorage.setItem("arcoiris_notificacoes", JSON.stringify(notificacoes));
+  }, [notificacoes]);
+
   return (
     <AppContext.Provider
       value={{
@@ -87,6 +96,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setBuscativas,
         entradasSaidas,
         setEntradasSaidas,
+        notificacoes,
+        setNotificacoes,
       }}
     >
       {children}

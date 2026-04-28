@@ -14,6 +14,7 @@ import EntradaSaida from "./pages/EntradaSaida";
 import Relatorios from "./pages/Relatorios";
 import Configuracoes from "./pages/Configuracoes";
 import Login from "./pages/Login";
+import Notificacoes from "./pages/Notificacoes";
 import type { Paciente } from "./types";
 
 function AppContent() {
@@ -69,6 +70,8 @@ function AppContent() {
         return <EntradaSaida />;
       case "relatorios":
         return <Relatorios />;
+      case "notificacoes":
+        return <Notificacoes />;
       case "configuracoes":
         return <Configuracoes onLogout={() => setIsAuthenticated(false)} />;
       default:
