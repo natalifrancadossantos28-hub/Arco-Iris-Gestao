@@ -14,7 +14,9 @@ import {
   Settings,
   ChevronDown,
   ChevronRight,
+  Bell,
 } from "lucide-react";
+import { useApp } from "../context/AppContext";
 
 interface SidebarProps {
   currentPage: string;
@@ -22,6 +24,8 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
+  const { notificacoes } = useApp();
+  const naoLidas = notificacoes.filter((n) => !n.lida).length;
   const [expanded, setExpanded] = useState<string[]>(["pacientes", "atendimentos"]);
 
   const toggleExpand = (key: string) => {
@@ -126,6 +130,27 @@ export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
         {menuItem("buscativas", "Buscativas", <Search size={18} />)}
         {menuItem("entrada_saida", "Entrada e Saída", <DoorOpen size={18} />)}
         {menuItem("relatorios", "Relatórios", <BarChart3 size={18} />)}
+
+        <button
+          key="notificacoes"
+          onClick={() => onNavigate("notificacoes")}
+          className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
+            currentPage === "notificacoes"
+              ? "bg-purple-600 text-white"
+              : "text-gray-300 hover:bg-white/10"
+          }`}
+        >
+          <div className="relative">
+            <Bell size={18} />
+            {naoLidas > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                {naoLidas > 9 ? "9+" : naoLidas}
+              </span>
+            )}
+          </div>
+          Notificações
+        </button>
+
         {menuItem("configuracoes", "Configurações", <Settings size={18} />)}
       </nav>
 
